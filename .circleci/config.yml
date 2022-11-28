@@ -181,8 +181,8 @@ workflows:
       - deploy-application:
           cluster-name: hello-world-app-deployment
           aws-region: us-east-1
-          docker-image-name: "${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}"
-          version-info: "${CIRCLE_SHA1}"
+          docker-image-name: ${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}
+          version-info: ${CIRCLE_SHA1}
           requires:
             - create-cluster
       - test-application:
