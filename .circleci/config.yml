@@ -143,19 +143,19 @@ workflows:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           registry-id: AWS_ECR_REGISTRY_ID
-          region: AWS_DEFAULT_REGION
+          region: AWS_REGION
           repo: hello-world
           dockerfile: Dockerfile
           path: ~/
           tag: ${CIRCLE_SHA1}
       - aws-eks/create-cluster:
           cluster-name: hello-world-app-deployment
-          aws-region: AWS_DEFAULT_REGION
+          aws-region: AWS_REGION
           requires:
             - build-and-push-image
       - deploy-application:
           cluster-name: hello-world-app-deployment
-          aws-region: AWS_DEFAULT_REGION
+          aws-region: AWS_REGION
           docker-image-name: "${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}"
           version-info: "${CIRCLE_SHA1}"
           requires:
@@ -163,6 +163,6 @@ workflows:
       - test-application:
           name: test-application
           cluster-name: hello-world-app-deployment
-          aws-region: AWS_DEFAULT_REGION
+          aws-region: AWS_REGION
           requires:
             - deploy-application
