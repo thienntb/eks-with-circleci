@@ -107,6 +107,8 @@ jobs:
           name: Create deployment manifest
           command: |
             BUILD_DATE=$(date '+%Y%m%d%H%M%S')
+            ls
+            cat deployment/hello-world-deployment.yaml
             cat deployment/hello-world-deployment.yaml |\
                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
                 g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|\
@@ -117,12 +119,12 @@ jobs:
           install-kubectl: true
           aws-region: << parameters.aws-region >>
       - kubernetes/create-or-update-resource:
-          resource-file-path: deployment/hello-world-deployment.yaml
+          resource-file-path: "deployment/hello-world-deployment.yaml"
           get-rollout-status: true
           resource-name: deployment/hello-world-deployment
           show-kubectl-command: true
       - kubernetes/create-or-update-resource:
-          resource-file-path: deployment/hello-world-service.yaml
+          resource-file-path: "deployment/hello-world-service.yaml"
 
   test-application:
     docker:
