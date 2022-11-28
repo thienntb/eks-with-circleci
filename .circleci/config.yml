@@ -145,6 +145,7 @@ workflows:
           repo: hello-world
           dockerfile: Dockerfile
           path: ./
+          create-repo: true
           tag: ${CIRCLE_SHA1}
       - aws-eks/create-cluster:
           cluster-name: hello-world-app-deployment
