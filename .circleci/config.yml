@@ -56,7 +56,8 @@ jobs:
             make security
 
   deploy-application:
-    executor: aws-eks/python3
+    docker:
+      - image: python:3.9-slim
     parameters:
       cluster-name:
         description: |
@@ -97,7 +98,8 @@ jobs:
           resource-file-path: "deployment/hello-world-service.yaml"
 
   test-application:
-    executor: aws-eks/python3
+    docker:
+      - image: python:3.9-slim
     parameters:
       cluster-name:
         description: |
