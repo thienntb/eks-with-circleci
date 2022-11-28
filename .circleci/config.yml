@@ -57,7 +57,7 @@ jobs:
 
   deploy-application:
     docker:
-      - image: python:3.9-slim
+      - image: cimg/python:3.9
     parameters:
       cluster-name:
         description: |
@@ -93,13 +93,13 @@ jobs:
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/hello-world-deployment.yaml"
           get-rollout-status: true
-          resource-name: deployment/demoapp
+          resource-name: deployment/hello-world-deployment
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/hello-world-service.yaml"
 
   test-application:
     docker:
-      - image: python:3.9-slim
+      - image: cimg/python:3.9
     parameters:
       cluster-name:
         description: |
@@ -140,10 +140,10 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image:
           name: build-and-push-image
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          registry-id: AWS_ECR_REGISTRY_ID
-          region: AWS_DEFAULT_REGION
+          aws-access-key-id: $AWS_ACCESS_KEY_ID
+          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          registry-id: $AWS_ECR_REGISTRY_ID
+          region: $AWS_DEFAULT_REGION
           repo: hello-world
           dockerfile: Dockerfile
           path: ~/
