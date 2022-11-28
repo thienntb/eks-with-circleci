@@ -107,12 +107,10 @@ jobs:
           name: Create deployment manifest
           command: |
             BUILD_DATE=$(date '+%Y%m%d%H%M%S')
-            ls
             cat deployment/hello-world-deployment.yaml
             cat deployment/hello-world-deployment.yaml |\
                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
-                g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|\
-                << parameters.version-info >>|g" > deployment/hello-world-deployment.yaml
+                g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|<< parameters.version-info >>|g" >> deployment/hello-world-deployment.yaml
             cat deployment/hello-world-deployment.yaml
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: << parameters.cluster-name >>
