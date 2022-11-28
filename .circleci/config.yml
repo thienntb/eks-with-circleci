@@ -55,6 +55,31 @@ jobs:
             . venv/bin/activate
             make security
 
+  create-cluster:
+    docker:
+      - image: cimg/python:3.9
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+      aws-region:
+        description: |
+          AWS region
+        type: string
+        default: ""
+      zones:
+        description: |
+          Zones
+        type: string
+        default: ""
+    steps:
+      - install-aws-iam-authenticator
+      - create-cluster:
+          aws-region: << parameters.aws-region >>
+          cluster-name: << parameters.cluster-name >>
+          zones:  << parameters.zones >>
+
   deploy-application:
     docker:
       - image: cimg/python:3.9
@@ -147,7 +172,7 @@ workflows:
           path: ./
           create-repo: true
           tag: ${CIRCLE_SHA1}
-      - aws-eks/create-cluster:
+      - create-cluster:
           cluster-name: hello-world-app-deployment
           aws-region: us-east-1
           zones: us-east-1a, us-east-1b, us-east-1c, us-east-1d
