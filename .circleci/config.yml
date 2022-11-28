@@ -74,8 +74,8 @@ jobs:
         type: string
         default: ""
     steps:
-      - install-aws-iam-authenticator
-      - create-cluster:
+      - aws-eks/install-aws-iam-authenticator
+      - aws-eks/create-cluster:
           aws-region: << parameters.aws-region >>
           cluster-name: << parameters.cluster-name >>
           zones:  << parameters.zones >>
