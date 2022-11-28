@@ -184,7 +184,7 @@ workflows:
           docker-image-name: "${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}"
           version-info: "${CIRCLE_SHA1}"
           requires:
-            - aws-eks/create-cluster
+            - create-cluster
       - test-application:
           name: test-application
           cluster-name: hello-world-app-deployment
