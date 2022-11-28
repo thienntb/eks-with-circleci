@@ -82,7 +82,7 @@ jobs:
           name: Create deployment manifest
           command: |
             BUILD_DATE=$(date '+%Y%m%d%H%M%S')
-            cat deployment/demo-app-deployment.yaml.template |\
+            cat deployment/hello-world-deployment.yaml |\
                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
                 g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|\
                 << parameters.version-info >>|g" > deployment/hello-world-deployment.yaml
@@ -140,22 +140,22 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image:
           name: build-and-push-image
-          aws-access-key-id: $AWS_ACCESS_KEY_ID
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-          registry-id: $AWS_ECR_REGISTRY_ID
-          region: $AWS_DEFAULT_REGION
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          registry-id: AWS_ECR_REGISTRY_ID
+          region: AWS_DEFAULT_REGION
           repo: hello-world
           dockerfile: Dockerfile
           path: ~/
           tag: ${CIRCLE_SHA1}
       - aws-eks/create-cluster:
           cluster-name: hello-world-app-deployment
-          aws-region: $AWS_DEFAULT_REGION
+          aws-region: AWS_DEFAULT_REGION
           requires:
             - build-and-push-image
       - deploy-application:
           cluster-name: hello-world-app-deployment
-          aws-region: $AWS_DEFAULT_REGION
+          aws-region: AWS_DEFAULT_REGION
           docker-image-name: "${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}"
           version-info: "${CIRCLE_SHA1}"
           requires:
@@ -163,6 +163,6 @@ workflows:
       - test-application:
           name: test-application
           cluster-name: hello-world-app-deployment
-          aws-region: $AWS_DEFAULT_REGION
+          aws-region: AWS_DEFAULT_REGION
           requires:
             - deploy-application
