@@ -117,11 +117,12 @@ jobs:
           install-kubectl: true
           aws-region: << parameters.aws-region >>
       - kubernetes/create-or-update-resource:
-          resource-file-path: "deployment/hello-world-deployment.yaml"
+          resource-file-path: deployment/hello-world-deployment.yaml
           get-rollout-status: true
           resource-name: deployment/hello-world-deployment
+          show-kubectl-command: true
       - kubernetes/create-or-update-resource:
-          resource-file-path: "deployment/hello-world-service.yaml"
+          resource-file-path: deployment/hello-world-service.yaml
 
   test-application:
     docker:
