@@ -17,6 +17,7 @@ spec:
       containers:
       - name: app
         image: DOCKER_IMAGE_NAME
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             cpu: 100m
@@ -28,3 +29,5 @@ spec:
           value: "BUILD_DATE_VALUE"
         ports:
         - containerPort: 5000
+      imagePullSecrets:
+        - name: myscret

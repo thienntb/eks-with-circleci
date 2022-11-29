@@ -96,6 +96,11 @@ jobs:
         description: |
           App version information
         type: string
+      aws-account:
+        description: |
+          AWS Account
+        type: string
+        default: ""
       aws-region:
         description: |
           AWS region
@@ -115,6 +120,14 @@ jobs:
           cluster-name: << parameters.cluster-name >>
           install-kubectl: true
           aws-region: << parameters.aws-region >>
+      - run:
+          name: Create secret
+          command: |
+            kubectl delete secret mysecret
+            kubectl create secret docker-registry mysecret \
+              --docker-server=<< parameters.aws-account >>.dkr.ecr.<< parameters.aws-region >>.amazonaws.com \
+              --docker-username=AWS \
+              --docker-password=$(aws ecr get-login-password)
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/hello-world-deployment.yaml"
 #          get-rollout-status: true
@@ -181,6 +194,7 @@ workflows:
 #            - build-and-push-image
       - deploy-application:
           cluster-name: hello-world-app-deployment
+          aws-account: ${AWS_ECR_REGISTRY_ID}
           aws-region: us-east-1
           docker-image-name: ${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}
           version-info: ${CIRCLE_SHA1}
