@@ -115,7 +115,6 @@ jobs:
             cat deployment/hello-world-deployment.yaml.template |\
                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
                 g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|<< parameters.version-info >>|g" >> deployment/hello-world-deployment.yaml
-            cat deployment/hello-world-deployment.yaml
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: << parameters.cluster-name >>
           install-kubectl: true
@@ -123,13 +122,13 @@ jobs:
       - run:
           name: Create secret
           command: |
+            kubectl delete secret mysecret
             kubectl create secret docker-registry mysecret \
               --docker-server=<< parameters.aws-account >>.dkr.ecr.<< parameters.aws-region >>.amazonaws.com \
               --docker-username=AWS \
               --docker-password=$(aws ecr get-login-password)
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/hello-world-deployment.yaml"
-#          get-rollout-status: true
           resource-name: deployment/hello-world-deployment
           show-kubectl-command: true
       - kubernetes/create-or-update-resource:
