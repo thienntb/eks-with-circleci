@@ -184,12 +184,12 @@ workflows:
           path: ./
           create-repo: true
           tag: ${CIRCLE_SHA1}
-#      - create-cluster:
-#          cluster-name: hello-world-app-deployment
-#          aws-region: us-east-1
-#          zones: us-east-1a,us-east-1b,us-east-1c,us-east-1d
-#          requires:
-#            - build-and-push-image
+      - create-cluster:
+          cluster-name: hello-world-app-deployment
+          aws-region: us-east-1
+          zones: us-east-1a,us-east-1b,us-east-1c,us-east-1d
+          requires:
+            - build-and-push-image
       - deploy-application:
           cluster-name: hello-world-app-deployment
           aws-account: ${AWS_ECR_REGISTRY_ID}
@@ -197,8 +197,7 @@ workflows:
           docker-image-name: ${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}
           version-info: ${CIRCLE_SHA1}
           requires:
-            - build-and-push-image
-#            - create-cluster
+            - create-cluster
       - test-application:
           name: test-application
           cluster-name: hello-world-app-deployment
