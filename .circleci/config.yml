@@ -175,6 +175,8 @@ jobs:
 workflows:
   deployment:
     jobs:
+      - linting
+      - security-check
       - aws-ecr/build-and-push-image:
           name: build-and-push-image
           registry-id: AWS_ECR_REGISTRY_ID
@@ -184,6 +186,9 @@ workflows:
           path: ./
           create-repo: true
           tag: ${CIRCLE_SHA1}
+          requires:
+            - linting
+            - security-check
       - create-cluster:
           cluster-name: hello-world-app-deployment
           aws-region: us-east-1

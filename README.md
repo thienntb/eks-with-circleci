@@ -50,6 +50,11 @@ pip install pytest pytest-cov
 pip install -r requirements.txt
 ENV=test pytest --cov ./src --cov-report html --cov-fail-under 95 tests/ -v
 ```
+Or
+```
+make install
+make test
+```
 
 ### License
 
