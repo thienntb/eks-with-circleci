@@ -1,1 +1,0 @@
-http://a625c0f58d4f345fca2e94a5d73d9caf-2119049459.us-east-1.elb.amazonaws.com
