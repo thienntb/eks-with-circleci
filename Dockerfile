@@ -12,6 +12,6 @@ RUN pip install --no-cache-dir --upgrade pip &&\
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["python", "./hello_world/app.py"]
