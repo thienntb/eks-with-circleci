@@ -163,15 +163,15 @@ jobs:
 workflows:
   deployment:
     jobs:
-#      - aws-ecr/build-and-push-image:
-#          name: build-and-push-image
-#          registry-id: AWS_ECR_REGISTRY_ID
-#          region: us-east-1
-#          repo: hello-world
-#          dockerfile: Dockerfile
-#          path: ./
-#          create-repo: true
-#          tag: ${CIRCLE_SHA1}
+      - aws-ecr/build-and-push-image:
+          name: build-and-push-image
+          registry-id: AWS_ECR_REGISTRY_ID
+          region: us-east-1
+          repo: hello-world
+          dockerfile: Dockerfile
+          path: ./
+          create-repo: true
+          tag: ${CIRCLE_SHA1}
 #      - create-cluster:
 #          cluster-name: hello-world-app-deployment
 #          aws-region: us-east-1
@@ -181,8 +181,8 @@ workflows:
       - deploy-application:
           cluster-name: hello-world-app-deployment
           aws-region: us-east-1
-          docker-image-name: ${AWS_ECR_URL}/hello-world:3788d7af5396a2bb2fa14282fba45b1c742e2d33
-          version-info: 3788d7af5396a2bb2fa14282fba45b1c742e2d33
+          docker-image-name: ${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}
+          version-info: ${CIRCLE_SHA1}
 #          requires:
 #            - create-cluster
       - test-application:
