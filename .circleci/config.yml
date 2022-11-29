@@ -117,7 +117,7 @@ jobs:
           aws-region: << parameters.aws-region >>
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/hello-world-deployment.yaml"
-          get-rollout-status: true
+#          get-rollout-status: true
           resource-name: deployment/hello-world-deployment
           show-kubectl-command: true
       - kubernetes/create-or-update-resource:
