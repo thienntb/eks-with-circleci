@@ -184,7 +184,8 @@ workflows:
           aws-region: us-east-1
           docker-image-name: ${AWS_ECR_URL}/hello-world:${CIRCLE_SHA1}
           version-info: ${CIRCLE_SHA1}
-#          requires:
+          requires:
+            - aws-ecr/build-and-push-image
 #            - create-cluster
       - test-application:
           name: test-application
